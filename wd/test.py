@@ -29,18 +29,20 @@ for p, page in enumerate(reader.pages):
 for n, i in enumerate(lawapp):
     if i.startswith("1. "):
         lawapp.pop(n)
-
+ 
+lawapp = lawapp[1:] # '법령의 적용' 제거
 lawapp = ' '.join(lawapp)
 
 erase = 0
 n = 0
 for i in lawapp:
-    if i == '(':
+    if i == '(' or (i == '출' and lawapp[n+1] == '처'):
         erase = n
     if erase:
         lawapp = lawapp[:erase] + lawapp[erase+1:]
-    if i == ')':
+    else:
+        n += 1
+    if i == ')' or (i == '-'):
         erase = 0
-    
-lawapp = lawapp[1:] # '법령의 적용' 제거
+
 print(lawapp)
